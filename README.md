@@ -1,4 +1,4 @@
-cat > ~/ambiente_conda_bioinfo/README.md << 'EOF'
+
 # Ambiente Conda/Mamba bioinformática
 
 Documentação e ambientes Conda para bioinformática em Debian 14 (amd64).
