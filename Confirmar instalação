@@ -1,0 +1,11 @@
+#Confirmar instalação
+conda activate ngs
+
+# Checar versões das principais
+fastqc --version
+samtools --version
+spades.py --version
+salmon --version
+kallisto version
+busco --version
+diamond version
