@@ -1,0 +1,57 @@
+#Ambiente NGS / Qualidade / Alinhamento
+mamba create -n ngs -y \
+  fastqc multiqc trimmomatic trim-galore fastp \
+  bwa bwa-mem2 bowtie2 hisat2 minimap2 \
+  samtools bcftools htslib bedtools \
+  picard gatk4 freebayes deepvariant \
+  qualimap bamtools \
+  sra-tools entrez-direct
+
+conda activate ngs
+
+#Ambiente montagem de genomas
+mamba create -n assembly -y \
+  spades flye hifiasm wtdbg2 \
+  unicycler raven-assembler \
+  quast busco checkm-genome \
+  seqkit seqtk bbtools \
+  bandage-ng
+
+conda activate assembly
+
+#Ambiente filogenia
+mamba create -n phylo -y \
+  mafft muscle clustalw \
+  iqtree raxml-ng fasttree \
+  mrbayes beast2 \
+  trimal modeltest-ng \
+  biopython dendropy ete3 \
+  figtree
+
+conda activate phylo
+
+#Ambiente biologia estrutural
+mamba create -n struct -y \
+  pymol-open-source \
+  dssp stride \
+  openmm \
+  mdanalysis \
+  biopython \
+  r-base r-ggplot2 \
+  hmmer blast+ diamond \
+  foldseek
+
+conda activate struct
+# AlphaFold2 e ColabFold têm instalação separada abaixo
+
+#Ambiente R
+mamba create -n renv -y \
+  r-base r-essentials \
+  bioconductor-deseq2 bioconductor-edger \
+  bioconductor-limma bioconductor-biocmanager \
+  r-ggplot2 r-tidyverse r-pheatmap \
+  r-vegan r-ape r-phangorn \
+  rstudio
+
+conda activate renv
+
