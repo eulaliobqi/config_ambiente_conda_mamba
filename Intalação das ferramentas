@@ -1,0 +1,61 @@
+# Criar o arquivo de instalação do Mamba
+cat > ~/ambiente_conda_bioinfo/docs/01_instalacao_mamba.md << 'EOF'
+# 01 — Instalação do Mamba (Miniforge3)
+
+Testado em: Debian 14 amd64 (kernel 6.19.8)
+
+## 1. Baixar o instalador
+```bash
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+```
+
+## 2. Instalar
+```bash
+bash Miniforge3-Linux-x86_64.sh
+```
+
+Durante a instalação:
+- Aceitar a licença: `yes`
+- Confirmar o diretório padrão (`~/miniforge3`): `Enter`
+- Inicializar o conda no shell: `yes`
+
+## 3. Recarregar o shell
+```bash
+source ~/.bashrc
+```
+
+## 4. Verificar
+```bash
+conda --version   # conda 26.1.1
+mamba --version   # 2.5.0
+```
+
+## 5. Configurar channels
+```bash
+conda config --remove channels defaults 2>/dev/null || true
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda config --set channel_priority strict
+```
+
+## 6. Verificar o arquivo de configuração
+```bash
+cat ~/.condarc
+```
+
+Resultado esperado:
+```yaml
+channels:
+  - conda-forge
+  - bioconda
+channel_priority: strict
+```
+
+## 7. Remover o instalador
+```bash
+rm ~/Miniforge3-Linux-x86_64.sh
+```
+EOF
+
+# Confirmar que foi criado corretamente
+cat ~/ambiente_conda_bioinfo/docs/01_instalacao_mamba.md
