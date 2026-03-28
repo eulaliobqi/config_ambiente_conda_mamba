@@ -1,0 +1,89 @@
+cd ~/ambiente_conda_bioinfo
+
+# .gitignore
+cat > .gitignore << 'EOF'
+*.pyc
+__pycache__/
+.ipynb_checkpoints/
+*.log
+*.tmp
+.snakemake/
+.nextflow/
+work/
+EOF
+
+# README.md
+cat > README.md << 'EOF'
+# ambiente_conda_bioinfo
+
+Ambientes Conda para bioinformática em Debian 14 (amd64).
+
+## Áreas cobertas
+- Genômica e NGS
+- Transcriptômica (RNASeq)
+- Montagem de genomas
+- Filogenia e evolução molecular
+- Biologia estrutural
+
+## Requisitos
+- Debian 14 amd64
+- Miniforge3
+- Mamba
+
+## Instalação do Miniforge3
+```bash
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+bash Miniforge3-Linux-x86_64.sh
+```
+
+## Configuração dos channels
+```bash
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda config --set channel_priority strict
+```
+
+## Ambientes disponíveis
+
+| Ambiente | Python | Descrição |
+|----------|--------|-----------|
+| `ngs`     | 3.11   | NGS, RNASeq, montagem, anotação |
+| `trinity` | 3.8    | Montagem de transcriptoma de novo |
+| `phylo`   | 3.11   | Filogenia e evolução molecular |
+| `struct`  | 3.10   | Biologia estrutural |
+| `renv`    | R 4.3  | Análise de expressão diferencial |
+
+## Criar um ambiente
+```bash
+mamba env create -f envs/ngs.yml
+conda activate ngs
+```
+
+## Atualizar um ambiente
+```bash
+mamba env update -n ngs -f envs/ngs.yml
+```
+EOF
+
+# scripts/setup.sh
+cat > scripts/setup.sh << 'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== Configurando channels ==="
+conda config --remove channels defaults 2>/dev/null || true
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda config --set channel_priority strict
+
+echo "=== Criando ambientes ==="
+for env in envs/*.yml; do
+  name=$(basename "$env" .yml)
+  echo "--- Criando: $name ---"
+  mamba env create -f "$env" || echo "AVISO: $name falhou, continuando..."
+done
+
+echo "=== Concluído ==="
+conda env list
+EOF
+chmod +x scripts/setup.sh
