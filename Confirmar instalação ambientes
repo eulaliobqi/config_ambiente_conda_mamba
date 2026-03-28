@@ -1,0 +1,16 @@
+#Confirmar instalação ambientes
+# Rodar após instalar tudo
+for env in ngs trinity phylo struct workflow renv; do
+  echo "=== $env ==="
+  conda run -n $env python --version 2>/dev/null || true
+  conda run -n $env R --version 2>/dev/null | head -1 || true
+done
+
+conda run -n ngs     fastqc --version
+conda run -n ngs     samtools --version | head -1
+conda run -n ngs     spades.py --version
+conda run -n trinity Trinity --version
+conda run -n phylo   iqtree2 --version | head -1
+conda run -n struct  python -c "import pymol; print('pymol ok')"
+conda run -n workflow snakemake --version
+nextflow -version
